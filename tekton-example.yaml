@@ -295,4 +295,30 @@ spec:
     - name: scm-checkout
       taskRef:
         name: scm-checkout
-    - name
+    - name: reset-schema
+      taskRef:
+        name: reset-schema
+    - name: run-subsetter
+      taskRef:
+        name: run-subsetter
+    - name: get-table-count-tonicp
+      taskRef:
+        name: get-table-count-tonicp
+    - name: prepare-tonic-workspace
+      taskRef:
+        name: prepare-tonic-workspace
+    - name: run-foreign-key-mask-generator
+      taskRef:
+        name: run-foreign-key-mask-generator
+    - name: generate-data
+      taskRef:
+        name: generate-data
+    - name: get-table-count-tonics
+      taskRef:
+        name: get-table-count-tonics
+    - name: export-data
+      taskRef:
+        name: export-data
+    - name: upload-data-to-cloud-storage
+      taskRef:
+        name: upload-data-to-cloud-storage
