@@ -182,41 +182,38 @@ spec:
 ---
 
 apiVersion: tekton.dev/v1beta1
-kind: Pipeline
+kind: Task
+metadata:
+  name: export-db-schema
+spec:
+  params:
+    - name: DB_NAME
+      description: "Name of the database to export"
+      type: string
+  steps:
+    - name: export-db-schema
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "Exporting schema for database: $DB_NAME"
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
 metadata:
   name: export-data
 spec:
-  tasks:
-    - name: export-db-schema-db1
-      taskRef:
-        name: export-db-schema
-      params:
-        - name: DB_NAME
-          value: "db1"
-    - name: export-db-schema-db2
-      taskRef:
-        name: export-db-schema
-      params:
-        - name: DB_NAME
-          value: "db2"
-    - name: export-db-schema-db3
-      taskRef:
-        name: export-db-schema
-      params:
-        - name: DB_NAME
-          value: "db3"
-    - name: export-db-schema-db4
-      taskRef:
-        name: export-db-schema
-      params:
-        - name: DB_NAME
-          value: "db4"
-    - name: export-db-schema-db5
-      taskRef:
-        name: export-db-schema
-      params:
-        - name: DB_NAME
-          value: "db5"
+  params:
+    - name: DB_NAME
+      description: "Name of the database to export"
+      type: string
+  steps:
+    - name: export-data
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "Exporting data for database: $DB_NAME"
 
 ---
 
@@ -298,67 +295,4 @@ spec:
     - name: scm-checkout
       taskRef:
         name: scm-checkout
-    - name: reset-schema
-      taskRef:
-        name: reset-schema
-    - name: run-subsetter
-      taskRef:
-        name: run-subsetter
-    - name: get-table-count-tonicp
-      taskRef:
-        name: get-table-count-tonicp
-    - name: prepare-tonic-workspace
-      taskRef:
-        name: prepare-tonic-workspace
-    - name: run-foreign-key-mask-generator
-      taskRef:
-        name: run-foreign-key-mask-generator
-    - name: generate-data
-      taskRef:
-        name: generate-data
-    - name: get-table-count-tonics
-      taskRef:
-        name: get-table-count-tonics
-    - name: export-data
-      taskRef:
-        name: export-data
-    - name: upload-data-to-cloud-storage
-      taskRef:
-        name: upload-data-to-cloud-storage
-
----
-
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: export-db-schema
-spec:
-  params:
-    - name: DB_NAME
-      description: "Name of the database to export"
-      type: string
-  steps:
-    - name: export-db-schema
-      image: alpine:3.12
-      script: |
-        #!/bin/sh
-        echo "Exporting schema for database: $DB_NAME"
-
----
-
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: export-data
-spec:
-  params:
-    - name: DB_NAME
-      description: "Name of the database to export"
-      type: string
-  steps:
-    - name: export-data
-      image: alpine:3.12
-      script: |
-        #!/bin/sh
-        echo "Exporting data for database: $DB_NAME"
-
+    - name
