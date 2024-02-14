@@ -319,6 +319,10 @@ spec:
     - name: export-data
       taskRef:
         name: export-data
+      params:
+        - name: DB_NAME
+          value: "TONIC_SUFFIX"
     - name: upload-data-to-cloud-storage
       taskRef:
         name: upload-data-to-cloud-storage
+
