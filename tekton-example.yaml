@@ -1,0 +1,110 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: init
+spec:
+  steps:
+    - name: init
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "This is where we init"
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: scm-checkout
+spec:
+  steps:
+    - name: scm-checkout
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "Checking out some nice SCM..."
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: start-data-processing
+spec:
+  steps:
+    - name: start-data-processing
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "Start Subsetting..."
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: start-staging-init-oracle-builder
+spec:
+  steps:
+    - name: start-staging-init-oracle-builder
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "===> Waiting for Docker container to start <==="
+        sleep 15
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: export-database
+spec:
+  steps:
+    - name: export-database
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "export"
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: upload-data-to-cloud-storage
+spec:
+  steps:
+    - name: initialize-jnlp-agent-workspace
+      image: alpine:3.12
+      script: |
+        #!/bin/sh -e
+        echo "Initialize workspace"
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: my-pipeline
+spec:
+  tasks:
+    - name: init
+      taskRef:
+        name: init
+    - name: scm-checkout
+      taskRef:
+        name: scm-checkout
+    - name: start-data-processing
+      taskRef:
+        name: start-data-processing
+    - name: start-staging-init-oracle-builder
+      taskRef:
+        name: start-staging-init-oracle-builder
+    - name: export-database
+      taskRef:
+        name: export-database
+    - name: upload-data-to-cloud-storage
+      taskRef:
+        name: upload-data-to-cloud-storage
+
