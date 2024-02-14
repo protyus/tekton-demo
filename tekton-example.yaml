@@ -325,3 +325,40 @@ spec:
     - name: upload-data-to-cloud-storage
       taskRef:
         name: upload-data-to-cloud-storage
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: export-db-schema
+spec:
+  params:
+    - name: DB_NAME
+      description: "Name of the database to export"
+      type: string
+  steps:
+    - name: export-db-schema
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "Exporting schema for database: $DB_NAME"
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: export-data
+spec:
+  params:
+    - name: DB_NAME
+      description: "Name of the database to export"
+      type: string
+  steps:
+    - name: export-data
+      image: alpine:3.12
+      script: |
+        #!/bin/sh
+        echo "Exporting data for database: $DB_NAME"
+
